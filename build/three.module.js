@@ -4221,25 +4221,64 @@ class Quaternion {
 
 }
 
-class Vector3 {
+const ArrayBufferType = typeof SharedArrayBuffer === 'function' ? SharedArrayBuffer : ArrayBuffer;
+
+class Vector3 extends Float32Array {
 
 	constructor( x = 0, y = 0, z = 0 ) {
 
+		super( new ArrayBufferType( Float32Array.BYTES_PER_ELEMENT * 3 ) );
 		Vector3.prototype.isVector3 = true;
 
-		this.x = x;
-		this.y = y;
-		this.z = z;
+		this[ 0 ] = x;
+		this[ 1 ] = y;
+		this[ 2 ] = z;
+
+	}
+
+	get x() {
+
+		return this[ 0 ];
+
+	}
+
+	set x( x ) {
+
+		this[ 0 ] = x;
+
+	}
+
+	get y() {
+
+		return this[ 1 ];
+
+	}
+
+	set y( y ) {
+
+		this[ 1 ] = y;
+
+	}
+
+	get z() {
+
+		return this[ 2 ];
+
+	}
+
+	set z( z ) {
+
+		this[ 2 ] = z;
 
 	}
 
 	set( x, y, z ) {
 
-		if ( z === undefined ) z = this.z; // sprite.scale.set(x,y)
+		if ( z === undefined ) z = this[ 2 ]; // sprite.scale.set(x,y)
 
-		this.x = x;
-		this.y = y;
-		this.z = z;
+		this[ 0 ] = x;
+		this[ 1 ] = y;
+		this[ 2 ] = z;
 
 		return this;
 
@@ -4247,9 +4286,9 @@ class Vector3 {
 
 	setScalar( scalar ) {
 
-		this.x = scalar;
-		this.y = scalar;
-		this.z = scalar;
+		this[ 0 ] = scalar;
+		this[ 1 ] = scalar;
+		this[ 2 ] = scalar;
 
 		return this;
 
@@ -4257,7 +4296,7 @@ class Vector3 {
 
 	setX( x ) {
 
-		this.x = x;
+		this[ 0 ] = x;
 
 		return this;
 
@@ -4265,7 +4304,7 @@ class Vector3 {
 
 	setY( y ) {
 
-		this.y = y;
+		this[ 1 ] = y;
 
 		return this;
 
@@ -4273,7 +4312,7 @@ class Vector3 {
 
 	setZ( z ) {
 
-		this.z = z;
+		this[ 2 ] = z;
 
 		return this;
 
@@ -4283,9 +4322,9 @@ class Vector3 {
 
 		switch ( index ) {
 
-			case 0: this.x = value; break;
-			case 1: this.y = value; break;
-			case 2: this.z = value; break;
+			case 0: this[ 0 ] = value; break;
+			case 1: this[ 1 ] = value; break;
+			case 2: this[ 2 ] = value; break;
 			default: throw new Error( 'index is out of range: ' + index );
 
 		}
@@ -4298,9 +4337,9 @@ class Vector3 {
 
 		switch ( index ) {
 
-			case 0: return this.x;
-			case 1: return this.y;
-			case 2: return this.z;
+			case 0: return this[ 0 ];
+			case 1: return this[ 1 ];
+			case 2: return this[ 2 ];
 			default: throw new Error( 'index is out of range: ' + index );
 
 		}
@@ -4309,15 +4348,15 @@ class Vector3 {
 
 	clone() {
 
-		return new this.constructor( this.x, this.y, this.z );
+		return new this.constructor( this[ 0 ], this[ 1 ], this[ 2 ] );
 
 	}
 
 	copy( v ) {
 
-		this.x = v.x;
-		this.y = v.y;
-		this.z = v.z;
+		this[ 0 ] = v[ 0 ];
+		this[ 1 ] = v[ 1 ];
+		this[ 2 ] = v[ 2 ];
 
 		return this;
 
@@ -4325,9 +4364,9 @@ class Vector3 {
 
 	add( v ) {
 
-		this.x += v.x;
-		this.y += v.y;
-		this.z += v.z;
+		this[ 0 ] += v[ 0 ];
+		this[ 1 ] += v[ 1 ];
+		this[ 2 ] += v[ 2 ];
 
 		return this;
 
@@ -4335,9 +4374,9 @@ class Vector3 {
 
 	addScalar( s ) {
 
-		this.x += s;
-		this.y += s;
-		this.z += s;
+		this[ 0 ] += s;
+		this[ 1 ] += s;
+		this[ 2 ] += s;
 
 		return this;
 
@@ -4345,9 +4384,9 @@ class Vector3 {
 
 	addVectors( a, b ) {
 
-		this.x = a.x + b.x;
-		this.y = a.y + b.y;
-		this.z = a.z + b.z;
+		this[ 0 ] = a[ 0 ] + b[ 0 ];
+		this[ 1 ] = a[ 1 ] + b[ 1 ];
+		this[ 2 ] = a[ 2 ] + b[ 2 ];
 
 		return this;
 
@@ -4355,9 +4394,9 @@ class Vector3 {
 
 	addScaledVector( v, s ) {
 
-		this.x += v.x * s;
-		this.y += v.y * s;
-		this.z += v.z * s;
+		this[ 0 ] += v[ 0 ] * s;
+		this[ 1 ] += v[ 1 ] * s;
+		this[ 2 ] += v[ 2 ] * s;
 
 		return this;
 
@@ -4365,9 +4404,9 @@ class Vector3 {
 
 	sub( v ) {
 
-		this.x -= v.x;
-		this.y -= v.y;
-		this.z -= v.z;
+		this[ 0 ] -= v[ 0 ];
+		this[ 1 ] -= v[ 1 ];
+		this[ 2 ] -= v[ 2 ];
 
 		return this;
 
@@ -4375,9 +4414,9 @@ class Vector3 {
 
 	subScalar( s ) {
 
-		this.x -= s;
-		this.y -= s;
-		this.z -= s;
+		this[ 0 ] -= s;
+		this[ 1 ] -= s;
+		this[ 2 ] -= s;
 
 		return this;
 
@@ -4385,9 +4424,9 @@ class Vector3 {
 
 	subVectors( a, b ) {
 
-		this.x = a.x - b.x;
-		this.y = a.y - b.y;
-		this.z = a.z - b.z;
+		this[ 0 ] = a[ 0 ] - b[ 0 ];
+		this[ 1 ] = a[ 1 ] - b[ 1 ];
+		this[ 2 ] = a[ 2 ] - b[ 2 ];
 
 		return this;
 
@@ -4395,9 +4434,9 @@ class Vector3 {
 
 	multiply( v ) {
 
-		this.x *= v.x;
-		this.y *= v.y;
-		this.z *= v.z;
+		this[ 0 ] *= v[ 0 ];
+		this[ 1 ] *= v[ 1 ];
+		this[ 2 ] *= v[ 2 ];
 
 		return this;
 
@@ -4405,9 +4444,9 @@ class Vector3 {
 
 	multiplyScalar( scalar ) {
 
-		this.x *= scalar;
-		this.y *= scalar;
-		this.z *= scalar;
+		this[ 0 ] *= scalar;
+		this[ 1 ] *= scalar;
+		this[ 2 ] *= scalar;
 
 		return this;
 
@@ -4415,9 +4454,9 @@ class Vector3 {
 
 	multiplyVectors( a, b ) {
 
-		this.x = a.x * b.x;
-		this.y = a.y * b.y;
-		this.z = a.z * b.z;
+		this[ 0 ] = a[ 0 ] * b[ 0 ];
+		this[ 1 ] = a[ 1 ] * b[ 1 ];
+		this[ 2 ] = a[ 2 ] * b[ 2 ];
 
 		return this;
 
@@ -4437,12 +4476,12 @@ class Vector3 {
 
 	applyMatrix3( m ) {
 
-		const x = this.x, y = this.y, z = this.z;
+		const x = this[ 0 ], y = this[ 1 ], z = this[ 2 ];
 		const e = m.elements;
 
-		this.x = e[ 0 ] * x + e[ 3 ] * y + e[ 6 ] * z;
-		this.y = e[ 1 ] * x + e[ 4 ] * y + e[ 7 ] * z;
-		this.z = e[ 2 ] * x + e[ 5 ] * y + e[ 8 ] * z;
+		this[ 0 ] = e[ 0 ] * x + e[ 3 ] * y + e[ 6 ] * z;
+		this[ 1 ] = e[ 1 ] * x + e[ 4 ] * y + e[ 7 ] * z;
+		this[ 2 ] = e[ 2 ] * x + e[ 5 ] * y + e[ 8 ] * z;
 
 		return this;
 
@@ -4456,14 +4495,14 @@ class Vector3 {
 
 	applyMatrix4( m ) {
 
-		const x = this.x, y = this.y, z = this.z;
+		const x = this[ 0 ], y = this[ 1 ], z = this[ 2 ];
 		const e = m.elements;
 
 		const w = 1 / ( e[ 3 ] * x + e[ 7 ] * y + e[ 11 ] * z + e[ 15 ] );
 
-		this.x = ( e[ 0 ] * x + e[ 4 ] * y + e[ 8 ] * z + e[ 12 ] ) * w;
-		this.y = ( e[ 1 ] * x + e[ 5 ] * y + e[ 9 ] * z + e[ 13 ] ) * w;
-		this.z = ( e[ 2 ] * x + e[ 6 ] * y + e[ 10 ] * z + e[ 14 ] ) * w;
+		this[ 0 ] = ( e[ 0 ] * x + e[ 4 ] * y + e[ 8 ] * z + e[ 12 ] ) * w;
+		this[ 1 ] = ( e[ 1 ] * x + e[ 5 ] * y + e[ 9 ] * z + e[ 13 ] ) * w;
+		this[ 2 ] = ( e[ 2 ] * x + e[ 6 ] * y + e[ 10 ] * z + e[ 14 ] ) * w;
 
 		return this;
 
@@ -4471,8 +4510,8 @@ class Vector3 {
 
 	applyQuaternion( q ) {
 
-		const x = this.x, y = this.y, z = this.z;
-		const qx = q.x, qy = q.y, qz = q.z, qw = q.w;
+		const x = this[ 0 ], y = this[ 1 ], z = this[ 2 ];
+		const qx = q[ 0 ], qy = q[ 1 ], qz = q[ 2 ], qw = q.w;
 
 		// calculate quat * vector
 
@@ -4483,9 +4522,9 @@ class Vector3 {
 
 		// calculate result * inverse quat
 
-		this.x = ix * qw + iw * - qx + iy * - qz - iz * - qy;
-		this.y = iy * qw + iw * - qy + iz * - qx - ix * - qz;
-		this.z = iz * qw + iw * - qz + ix * - qy - iy * - qx;
+		this[ 0 ] = ix * qw + iw * - qx + iy * - qz - iz * - qy;
+		this[ 1 ] = iy * qw + iw * - qy + iz * - qx - ix * - qz;
+		this[ 2 ] = iz * qw + iw * - qz + ix * - qy - iy * - qx;
 
 		return this;
 
@@ -4508,12 +4547,12 @@ class Vector3 {
 		// input: THREE.Matrix4 affine matrix
 		// vector interpreted as a direction
 
-		const x = this.x, y = this.y, z = this.z;
+		const x = this[ 0 ], y = this[ 1 ], z = this[ 2 ];
 		const e = m.elements;
 
-		this.x = e[ 0 ] * x + e[ 4 ] * y + e[ 8 ] * z;
-		this.y = e[ 1 ] * x + e[ 5 ] * y + e[ 9 ] * z;
-		this.z = e[ 2 ] * x + e[ 6 ] * y + e[ 10 ] * z;
+		this[ 0 ] = e[ 0 ] * x + e[ 4 ] * y + e[ 8 ] * z;
+		this[ 1 ] = e[ 1 ] * x + e[ 5 ] * y + e[ 9 ] * z;
+		this[ 2 ] = e[ 2 ] * x + e[ 6 ] * y + e[ 10 ] * z;
 
 		return this.normalize();
 
@@ -4521,9 +4560,9 @@ class Vector3 {
 
 	divide( v ) {
 
-		this.x /= v.x;
-		this.y /= v.y;
-		this.z /= v.z;
+		this[ 0 ] /= v[ 0 ];
+		this[ 1 ] /= v[ 1 ];
+		this[ 2 ] /= v[ 2 ];
 
 		return this;
 
@@ -4537,9 +4576,9 @@ class Vector3 {
 
 	min( v ) {
 
-		this.x = Math.min( this.x, v.x );
-		this.y = Math.min( this.y, v.y );
-		this.z = Math.min( this.z, v.z );
+		this[ 0 ] = Math.min( this[ 0 ], v[ 0 ] );
+		this[ 1 ] = Math.min( this[ 1 ], v[ 1 ] );
+		this[ 2 ] = Math.min( this[ 2 ], v[ 2 ] );
 
 		return this;
 
@@ -4547,9 +4586,9 @@ class Vector3 {
 
 	max( v ) {
 
-		this.x = Math.max( this.x, v.x );
-		this.y = Math.max( this.y, v.y );
-		this.z = Math.max( this.z, v.z );
+		this[ 0 ] = Math.max( this[ 0 ], v[ 0 ] );
+		this[ 1 ] = Math.max( this[ 1 ], v[ 1 ] );
+		this[ 2 ] = Math.max( this[ 2 ], v[ 2 ] );
 
 		return this;
 
@@ -4559,9 +4598,9 @@ class Vector3 {
 
 		// assumes min < max, componentwise
 
-		this.x = Math.max( min.x, Math.min( max.x, this.x ) );
-		this.y = Math.max( min.y, Math.min( max.y, this.y ) );
-		this.z = Math.max( min.z, Math.min( max.z, this.z ) );
+		this[ 0 ] = Math.max( min[ 0 ], Math.min( max[ 0 ], this[ 0 ] ) );
+		this[ 1 ] = Math.max( min[ 1 ], Math.min( max[ 1 ], this[ 1 ] ) );
+		this[ 2 ] = Math.max( min[ 2 ], Math.min( max[ 2 ], this[ 2 ] ) );
 
 		return this;
 
@@ -4569,9 +4608,9 @@ class Vector3 {
 
 	clampScalar( minVal, maxVal ) {
 
-		this.x = Math.max( minVal, Math.min( maxVal, this.x ) );
-		this.y = Math.max( minVal, Math.min( maxVal, this.y ) );
-		this.z = Math.max( minVal, Math.min( maxVal, this.z ) );
+		this[ 0 ] = Math.max( minVal, Math.min( maxVal, this[ 0 ] ) );
+		this[ 1 ] = Math.max( minVal, Math.min( maxVal, this[ 1 ] ) );
+		this[ 2 ] = Math.max( minVal, Math.min( maxVal, this[ 2 ] ) );
 
 		return this;
 
@@ -4587,9 +4626,9 @@ class Vector3 {
 
 	floor() {
 
-		this.x = Math.floor( this.x );
-		this.y = Math.floor( this.y );
-		this.z = Math.floor( this.z );
+		this[ 0 ] = Math.floor( this[ 0 ] );
+		this[ 1 ] = Math.floor( this[ 1 ] );
+		this[ 2 ] = Math.floor( this[ 2 ] );
 
 		return this;
 
@@ -4597,9 +4636,9 @@ class Vector3 {
 
 	ceil() {
 
-		this.x = Math.ceil( this.x );
-		this.y = Math.ceil( this.y );
-		this.z = Math.ceil( this.z );
+		this[ 0 ] = Math.ceil( this[ 0 ] );
+		this[ 1 ] = Math.ceil( this[ 1 ] );
+		this[ 2 ] = Math.ceil( this[ 2 ] );
 
 		return this;
 
@@ -4607,9 +4646,9 @@ class Vector3 {
 
 	round() {
 
-		this.x = Math.round( this.x );
-		this.y = Math.round( this.y );
-		this.z = Math.round( this.z );
+		this[ 0 ] = Math.round( this[ 0 ] );
+		this[ 1 ] = Math.round( this[ 1 ] );
+		this[ 2 ] = Math.round( this[ 2 ] );
 
 		return this;
 
@@ -4617,9 +4656,9 @@ class Vector3 {
 
 	roundToZero() {
 
-		this.x = ( this.x < 0 ) ? Math.ceil( this.x ) : Math.floor( this.x );
-		this.y = ( this.y < 0 ) ? Math.ceil( this.y ) : Math.floor( this.y );
-		this.z = ( this.z < 0 ) ? Math.ceil( this.z ) : Math.floor( this.z );
+		this[ 0 ] = ( this[ 0 ] < 0 ) ? Math.ceil( this[ 0 ] ) : Math.floor( this[ 0 ] );
+		this[ 1 ] = ( this[ 1 ] < 0 ) ? Math.ceil( this[ 1 ] ) : Math.floor( this[ 1 ] );
+		this[ 2 ] = ( this[ 2 ] < 0 ) ? Math.ceil( this[ 2 ] ) : Math.floor( this[ 2 ] );
 
 		return this;
 
@@ -4627,9 +4666,9 @@ class Vector3 {
 
 	negate() {
 
-		this.x = - this.x;
-		this.y = - this.y;
-		this.z = - this.z;
+		this[ 0 ] = - this[ 0 ];
+		this[ 1 ] = - this[ 1 ];
+		this[ 2 ] = - this[ 2 ];
 
 		return this;
 
@@ -4637,7 +4676,7 @@ class Vector3 {
 
 	dot( v ) {
 
-		return this.x * v.x + this.y * v.y + this.z * v.z;
+		return this[ 0 ] * v[ 0 ] + this[ 1 ] * v[ 1 ] + this[ 2 ] * v[ 2 ];
 
 	}
 
@@ -4645,19 +4684,19 @@ class Vector3 {
 
 	lengthSq() {
 
-		return this.x * this.x + this.y * this.y + this.z * this.z;
+		return this[ 0 ] * this[ 0 ] + this[ 1 ] * this[ 1 ] + this[ 2 ] * this[ 2 ];
 
 	}
 
 	length() {
 
-		return Math.sqrt( this.x * this.x + this.y * this.y + this.z * this.z );
+		return Math.sqrt( this[ 0 ] * this[ 0 ] + this[ 1 ] * this[ 1 ] + this[ 2 ] * this[ 2 ] );
 
 	}
 
 	manhattanLength() {
 
-		return Math.abs( this.x ) + Math.abs( this.y ) + Math.abs( this.z );
+		return Math.abs( this[ 0 ] ) + Math.abs( this[ 1 ] ) + Math.abs( this[ 2 ] );
 
 	}
 
@@ -4675,9 +4714,9 @@ class Vector3 {
 
 	lerp( v, alpha ) {
 
-		this.x += ( v.x - this.x ) * alpha;
-		this.y += ( v.y - this.y ) * alpha;
-		this.z += ( v.z - this.z ) * alpha;
+		this[ 0 ] += ( v[ 0 ] - this[ 0 ] ) * alpha;
+		this[ 1 ] += ( v[ 1 ] - this[ 1 ] ) * alpha;
+		this[ 2 ] += ( v[ 2 ] - this[ 2 ] ) * alpha;
 
 		return this;
 
@@ -4685,9 +4724,9 @@ class Vector3 {
 
 	lerpVectors( v1, v2, alpha ) {
 
-		this.x = v1.x + ( v2.x - v1.x ) * alpha;
-		this.y = v1.y + ( v2.y - v1.y ) * alpha;
-		this.z = v1.z + ( v2.z - v1.z ) * alpha;
+		this[ 0 ] = v1[ 0 ] + ( v2[ 0 ] - v1[ 0 ] ) * alpha;
+		this[ 1 ] = v1[ 1 ] + ( v2[ 1 ] - v1[ 1 ] ) * alpha;
+		this[ 2 ] = v1[ 2 ] + ( v2[ 2 ] - v1[ 2 ] ) * alpha;
 
 		return this;
 
@@ -4701,12 +4740,12 @@ class Vector3 {
 
 	crossVectors( a, b ) {
 
-		const ax = a.x, ay = a.y, az = a.z;
-		const bx = b.x, by = b.y, bz = b.z;
+		const ax = a[ 0 ], ay = a[ 1 ], az = a[ 2 ];
+		const bx = b[ 0 ], by = b[ 1 ], bz = b[ 2 ];
 
-		this.x = ay * bz - az * by;
-		this.y = az * bx - ax * bz;
-		this.z = ax * by - ay * bx;
+		this[ 0 ] = ay * bz - az * by;
+		this[ 1 ] = az * bx - ax * bz;
+		this[ 2 ] = ax * by - ay * bx;
 
 		return this;
 
@@ -4763,7 +4802,7 @@ class Vector3 {
 
 	distanceToSquared( v ) {
 
-		const dx = this.x - v.x, dy = this.y - v.y, dz = this.z - v.z;
+		const dx = this[ 0 ] - v[ 0 ], dy = this[ 1 ] - v[ 1 ], dz = this[ 2 ] - v[ 2 ];
 
 		return dx * dx + dy * dy + dz * dz;
 
@@ -4771,7 +4810,7 @@ class Vector3 {
 
 	manhattanDistanceTo( v ) {
 
-		return Math.abs( this.x - v.x ) + Math.abs( this.y - v.y ) + Math.abs( this.z - v.z );
+		return Math.abs( this[ 0 ] - v[ 0 ] ) + Math.abs( this[ 1 ] - v[ 1 ] ) + Math.abs( this[ 2 ] - v[ 2 ] );
 
 	}
 
@@ -4785,9 +4824,9 @@ class Vector3 {
 
 		const sinPhiRadius = Math.sin( phi ) * radius;
 
-		this.x = sinPhiRadius * Math.sin( theta );
-		this.y = Math.cos( phi ) * radius;
-		this.z = sinPhiRadius * Math.cos( theta );
+		this[ 0 ] = sinPhiRadius * Math.sin( theta );
+		this[ 1 ] = Math.cos( phi ) * radius;
+		this[ 2 ] = sinPhiRadius * Math.cos( theta );
 
 		return this;
 
@@ -4795,15 +4834,15 @@ class Vector3 {
 
 	setFromCylindrical( c ) {
 
-		return this.setFromCylindricalCoords( c.radius, c.theta, c.y );
+		return this.setFromCylindricalCoords( c.radius, c.theta, c[ 1 ] );
 
 	}
 
 	setFromCylindricalCoords( radius, theta, y ) {
 
-		this.x = radius * Math.sin( theta );
-		this.y = y;
-		this.z = radius * Math.cos( theta );
+		this[ 0 ] = radius * Math.sin( theta );
+		this[ 1 ] = y;
+		this[ 2 ] = radius * Math.cos( theta );
 
 		return this;
 
@@ -4813,9 +4852,9 @@ class Vector3 {
 
 		const e = m.elements;
 
-		this.x = e[ 12 ];
-		this.y = e[ 13 ];
-		this.z = e[ 14 ];
+		this[ 0 ] = e[ 12 ];
+		this[ 1 ] = e[ 13 ];
+		this[ 2 ] = e[ 14 ];
 
 		return this;
 
@@ -4827,9 +4866,9 @@ class Vector3 {
 		const sy = this.setFromMatrixColumn( m, 1 ).length();
 		const sz = this.setFromMatrixColumn( m, 2 ).length();
 
-		this.x = sx;
-		this.y = sy;
-		this.z = sz;
+		this[ 0 ] = sx;
+		this[ 1 ] = sy;
+		this[ 2 ] = sz;
 
 		return this;
 
@@ -4849,9 +4888,9 @@ class Vector3 {
 
 	setFromEuler( e ) {
 
-		this.x = e._x;
-		this.y = e._y;
-		this.z = e._z;
+		this[ 0 ] = e._x;
+		this[ 1 ] = e._y;
+		this[ 2 ] = e._z;
 
 		return this;
 
@@ -4859,15 +4898,15 @@ class Vector3 {
 
 	equals( v ) {
 
-		return ( ( v.x === this.x ) && ( v.y === this.y ) && ( v.z === this.z ) );
+		return ( ( v[ 0 ] === this[ 0 ] ) && ( v[ 1 ] === this[ 1 ] ) && ( v[ 2 ] === this[ 2 ] ) );
 
 	}
 
 	fromArray( array, offset = 0 ) {
 
-		this.x = array[ offset ];
-		this.y = array[ offset + 1 ];
-		this.z = array[ offset + 2 ];
+		this[ 0 ] = array[ offset ];
+		this[ 1 ] = array[ offset + 1 ];
+		this[ 2 ] = array[ offset + 2 ];
 
 		return this;
 
@@ -4875,9 +4914,9 @@ class Vector3 {
 
 	toArray( array = [], offset = 0 ) {
 
-		array[ offset ] = this.x;
-		array[ offset + 1 ] = this.y;
-		array[ offset + 2 ] = this.z;
+		array[ offset ] = this[ 0 ];
+		array[ offset + 1 ] = this[ 1 ];
+		array[ offset + 2 ] = this[ 2 ];
 
 		return array;
 
@@ -4885,9 +4924,9 @@ class Vector3 {
 
 	fromBufferAttribute( attribute, index ) {
 
-		this.x = attribute.getX( index );
-		this.y = attribute.getY( index );
-		this.z = attribute.getZ( index );
+		this[ 0 ] = attribute.getX( index );
+		this[ 1 ] = attribute.getY( index );
+		this[ 2 ] = attribute.getZ( index );
 
 		return this;
 
@@ -4895,9 +4934,9 @@ class Vector3 {
 
 	random() {
 
-		this.x = Math.random();
-		this.y = Math.random();
-		this.z = Math.random();
+		this[ 0 ] = Math.random();
+		this[ 1 ] = Math.random();
+		this[ 2 ] = Math.random();
 
 		return this;
 
@@ -4911,9 +4950,9 @@ class Vector3 {
 		const t = Math.random() * Math.PI * 2;
 		const f = Math.sqrt( 1 - u ** 2 );
 
-		this.x = f * Math.cos( t );
-		this.y = f * Math.sin( t );
-		this.z = u;
+		this[ 0 ] = f * Math.cos( t );
+		this[ 1 ] = f * Math.sin( t );
+		this[ 2 ] = u;
 
 		return this;
 
@@ -4921,9 +4960,9 @@ class Vector3 {
 
 	*[ Symbol.iterator ]() {
 
-		yield this.x;
-		yield this.y;
-		yield this.z;
+		yield this[ 0 ];
+		yield this[ 1 ];
+		yield this[ 2 ];
 
 	}
 
